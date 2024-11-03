@@ -10,8 +10,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export class Bot {
-  constructor(client) {
+  constructor(client, api) {
     this.client = client;
+    this.api = api;
+
     this.prefix = '/';
     this.commands = new Collection();
     this.slashCommands = [];
@@ -45,7 +47,11 @@ export class Bot {
       this.slashCommandsMap.set(command.default.data.name, command.default);
     }
 
-    await rest.put(Routes.applicationCommands(this.client.user.id), { body: this.slashCommands });
+    if (config.BOT_GUILD_ID) {
+      await rest.put(Routes.applicationGuildCommands(this.client.user.id, config.BOT_GUILD_ID), { body: this.slashCommands });
+    } else {
+      await rest.put(Routes.applicationCommands(this.client.user.id), { body: this.slashCommands });
+    }
   }
 
   async onInteractionCreate() {
@@ -85,7 +91,7 @@ export class Bot {
         const permissionsCheck = await checkPermissions(command, interaction);
 
         if (permissionsCheck.result) {
-          command.execute(interaction);
+          command.execute(interaction, this.api);
         } else {
           throw new MissingPermissionsException(permissionsCheck.missing);
         }
