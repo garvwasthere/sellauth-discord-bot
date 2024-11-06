@@ -9,65 +9,61 @@ export class Api {
   }
 
   async get(endpoint) {
-    try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        headers: { 'Authorization': `Bearer ${this.apiKey}` }
-      });
-      if (!response.ok) throw new Error(`Error: ${response.statusText}`);
-      return await response.json();
-    } catch (error) {
-      console.error(`API GET Error: ${error.message}`);
-      return null;
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      headers: { 'Authorization': `Bearer ${this.apiKey}` }
+    });
+
+    if (!response.ok) {
+      throw { message: 'Invalid response', response };
     }
+
+    return await response.json();
   }
 
   async post(endpoint, data) {
-    try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      if (!response.ok) throw new Error(`Error: ${response.statusText}`);
-      return await response.json();
-    } catch (error) {
-      console.error(`API POST Error: ${error.message}`);
-      return null;
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    
+    if (!response.ok) {
+      throw { message: 'Invalid response', response };
     }
+
+    return await response.json();
   }
 
   async put(endpoint, data) {
-    try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-      if (!response.ok) throw new Error(`Error: ${response.statusText}`);
-      return await response.json();
-    } catch (error) {
-      console.error(`API PUT Error: ${error.message}`);
-      return null;
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      throw { message: 'Invalid response', response };
     }
+
+    return await response.json();
   }
 
   async delete(endpoint) {
-    try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${this.apiKey}` }
-      });
-      if (!response.ok) throw new Error(`Error: ${response.statusText}`);
-      return await response.json();
-    } catch (error) {
-      console.error(`API DELETE Error: ${error.message}`);
-      return null;
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${this.apiKey}` }
+    });
+    
+    if (!response.ok) {
+      throw { message: 'Invalid response', response };
     }
+
+    return await response.json();
   }
 }
