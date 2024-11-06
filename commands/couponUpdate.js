@@ -101,8 +101,7 @@ export default {
           { name: 'Global', value: global ? 'Yes' : 'No', inline: true },
           { name: 'Max Uses', value: maxUses?.toString() ?? '∞', inline: true },
           { name: 'Expires On', value: expirationDate, inline: true }
-        )
-        .setTimestamp();
+        );
 
       return interaction.reply({ embeds: [embed] });
     } catch (error) {
