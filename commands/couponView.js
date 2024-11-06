@@ -41,7 +41,7 @@ export default {
           { name: 'Uses', value: `${coupon.uses}/${coupon.max_uses || '∞'}` },
           {
             name: 'Allowed Emails',
-            value: coupon.allowed_emails.length ? coupon.allowed_emails.join(', ') : 'All Emails'
+            value: coupon.allowed_emails?.length ? coupon.allowed_emails.join(', ') : 'All Emails'
           },
           {
             name: 'Products',
