@@ -26,7 +26,7 @@ Running the Bot
 
 To start the bot, run:
 
-`node bot.js`
+`node index.js`
 
 ## Development Guidelines
 
