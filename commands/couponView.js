@@ -42,8 +42,8 @@ export default {
 
       await interaction.reply({ embeds: [embed] });
     } catch (error) {
-      console.error('Error listing coupons:', error);
-      await interaction.reply({ content: 'Failed to list coupons.', ephemeral: true });
+      console.error('Error viewing coupon:', error);
+      await interaction.reply({ content: 'Failed to view coupon.', ephemeral: true });
     }
   },
 };
