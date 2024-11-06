@@ -1,5 +1,32 @@
 import { EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
+const formatCoupon = (coupon, isSingle) => {
+  const { code, type, discount, expiration_date, uses, max_uses } = coupon;
+
+  const valueStr = `${type === 'percentage' ? `${discount}%` : `$${discount}`}`;
+  const expirationStr = expiration_date ? `Expires at ${(new Date(expiration_date)).toLocaleString()}` : 'No Expiration Date';
+  const redeemedStr = `${uses}/${max_uses || '∞'}`;
+  const allowedEmailsStr = coupon.allowed_emails.length ? coupon.allowed_emails.join(', ') : 'All Emails';
+
+  let productStr = '';
+
+  if (global) {
+    productStr = 'All Products';
+  } else if (products.length === 0) {
+    productStr = 'No Products';
+  } else if (isSingle) {
+    productStr = products.map(product => product.name).join(', ');
+  } else {
+    // When listing multiple coupons, only show the first 2 products
+    productStr = products.slice(0, 2).map(product => product.name).join(', ');
+    if (products.length > 2) {
+      productStr += ` and ${products.length - 2} more`;
+    }
+  }
+
+  return `**${code}**: ${valueStr} • ${expirationStr} • ${redeemedStr} • ${allowedEmailsStr} • ${productStr}`;
+};
+
 export default {
   data: new SlashCommandBuilder()
     .setName('coupon-read')
@@ -32,7 +59,7 @@ export default {
           .setTitle('Coupon Details')
           .setColor('#0099ff')
           .setTimestamp()
-          .setDescription(`\`Code:\` ${coupon.code}, \`ID:\` ${coupon.id}`);
+          .setDescription(formatCoupon(coupon, true));
 
         await interaction.reply({ embeds: [embed] });
         return;
@@ -51,7 +78,7 @@ export default {
       if (currentCoupons.length === 0) {
         embed.setDescription('No coupons found.');
       } else {
-        embed.setDescription(currentCoupons.map(coupon => `\`Code:\` ${coupon.code}, \`ID:\` ${coupon.id}`).join('\n'));
+        embed.setDescription(currentCoupons.map(coupon => formatCoupon(coupon, false)).join('\n'));
         embed.setFooter({ text: `Page ${page} of ${totalPages}` });
       }
 
@@ -82,7 +109,7 @@ export default {
       if (totalPages > 1) {
         const collector = interaction.channel.createMessageComponentCollector({
           filter: i => i.user.id === interaction.user.id && i.message.id === initialResponse.id,
-          time: 15000 // 15 seconds to interact
+          time: 15000
         });
 
         collector.on('collect', async i => {
@@ -93,7 +120,7 @@ export default {
           const endIndex = Math.min(startIndex + pageSize, coupons.length);
           const currentCoupons = coupons.slice(startIndex, endIndex);
 
-          embed.setDescription(currentCoupons.length === 0 ? 'No coupons found.' : currentCoupons.map(coupon => `\`Code:\` ${coupon.code}, \`ID:\` ${coupon.id}`).join('\n'));
+          embed.setDescription(currentCoupons.length === 0 ? 'No coupons found.' : currentCoupons.map(coupon => formatCoupon(coupon, false)).join('\n'));
           embed.setFooter({ text: `Page ${page} of ${totalPages}` });
 
           const newComponents = [];
@@ -107,7 +134,7 @@ export default {
 
         collector.on('end', collected => {
           if (collected.size === 0) {
-            interaction.editReply({ components: [] }); // Remove buttons after timeout
+            interaction.editReply({ components: [] });
           }
         });
       }
