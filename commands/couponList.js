@@ -1,7 +1,7 @@
 import { EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
 const formatCoupon = (coupon, isSingle) => {
-  const { code, type, discount, expiration_date, uses, max_uses } = coupon;
+  const { code, type, discount, expiration_date, uses, max_uses, products } = coupon;
 
   const valueStr = `${type === 'percentage' ? `${discount}%` : `$${discount}`}`;
   const expirationStr = expiration_date ? `Expires at ${(new Date(expiration_date)).toLocaleString()}` : 'No Expiration Date';
@@ -29,41 +29,18 @@ const formatCoupon = (coupon, isSingle) => {
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('coupon-read')
-    .setDescription('List all coupons.')
-    .addStringOption(option =>
-      option.setName('code')
-        .setDescription('The coupon code to search for')
-        .setRequired(false)
-    ),
+    .setName('coupon-list')
+    .setDescription('List all coupons.'),
 
   async execute(interaction, api) {
     const shopId = api.shopId;
-    const code = interaction.options.getString('code');
     const pageSize = 10; // Number of coupons per page
     let page = 1; // Current page
 
     try {
+      // TODO: Implement server-side pagination for the next update.
+
       let coupons = await api.get(`shops/${shopId}/coupons`) || [];
-
-      if (code) {
-        // If a code is provided, filter the coupons to find the one with the matching code
-        const coupon = coupons.find(coupon => coupon.code === code);
-        if (!coupon) {
-          await interaction.reply({ content: `No coupon found with the code: ${code}`, ephemeral: true });
-          return;
-        }
-
-        // Create an embed for the single coupon
-        const embed = new EmbedBuilder()
-          .setTitle('Coupon Details')
-          .setColor('#0099ff')
-          .setTimestamp()
-          .setDescription(formatCoupon(coupon, true));
-
-        await interaction.reply({ embeds: [embed] });
-        return;
-      }
 
       const totalPages = Math.ceil(coupons.length / pageSize);
       const startIndex = (page - 1) * pageSize;
