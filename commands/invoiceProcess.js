@@ -4,11 +4,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName('invoice-process')
     .setDescription('process a invoice.')
-    .addStringOption(option =>
-      option.setName('id')
-        .setDescription('The invoice ID to search for')
-        .setRequired(true)
-    ),
+    .addStringOption((option) => option.setName('id').setDescription('The invoice ID to search for').setRequired(true)),
 
   onlyWhitelisted: true,
 
@@ -41,5 +37,5 @@ export default {
       console.error('Error processing invoice:', error);
       await interaction.reply({ content: 'Failed to process invoice.', ephemeral: true });
     }
-  },
+  }
 };

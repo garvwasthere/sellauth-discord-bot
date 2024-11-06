@@ -48,7 +48,9 @@ export class Bot {
     }
 
     if (config.BOT_GUILD_ID) {
-      await rest.put(Routes.applicationGuildCommands(this.client.user.id, config.BOT_GUILD_ID), { body: this.slashCommands });
+      await rest.put(Routes.applicationGuildCommands(this.client.user.id, config.BOT_GUILD_ID), {
+        body: this.slashCommands
+      });
     } else {
       await rest.put(Routes.applicationCommands(this.client.user.id), { body: this.slashCommands });
     }

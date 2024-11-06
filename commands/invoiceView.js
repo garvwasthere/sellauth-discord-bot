@@ -10,12 +10,14 @@ const formatCoupon = (coupon) => {
 const formatCustomFields = (customFields) => {
   if (!customFields || Object.entries(customFields).length === 0) return 'N/A';
 
-  return Object.entries(customFields).map(([key, value]) => `${key}: "${value}"`).join(', ');
+  return Object.entries(customFields)
+    .map(([key, value]) => `${key}: "${value}"`)
+    .join(', ');
 };
 
 const formatDelivered = (delivered) => {
   if (!delivered) return 'N/A';
-  
+
   const data = JSON.parse(delivered);
 
   if (Array.isArray(data)) {
@@ -30,7 +32,9 @@ const formatGatewayInfo = (invoice) => {
     case 'CASHAPP':
       return `Transaction ID: "${invoice.cashapp_transaction_id || 'N/A'}"`;
     case 'STRIPE':
-      return invoice.stripe_pi_id ? `[https://dashboard.stripe.com/payments/${invoice.stripe_pi_id}](https://dashboard.stripe.com/payments/${invoice.stripe_pi_id})` : 'N/A';
+      return invoice.stripe_pi_id
+        ? `[https://dashboard.stripe.com/payments/${invoice.stripe_pi_id}](https://dashboard.stripe.com/payments/${invoice.stripe_pi_id})`
+        : 'N/A';
     case 'PAYPALFF':
       return invoice.paypalff_note ? `Note: "${invoice.paypalff_note}"` : 'N/A';
     case 'SUMUP':
@@ -42,17 +46,13 @@ const formatGatewayInfo = (invoice) => {
     default:
       return 'N/A';
   }
-}
+};
 
 export default {
   data: new SlashCommandBuilder()
     .setName('invoice-view')
     .setDescription('View a invoice.')
-    .addStringOption(option =>
-      option.setName('id')
-        .setDescription('The invoice ID to search for')
-        .setRequired(true)
-    ),
+    .addStringOption((option) => option.setName('id').setDescription('The invoice ID to search for').setRequired(true)),
 
   onlyWhitelisted: true,
 
@@ -80,7 +80,7 @@ export default {
         .setTimestamp()
         .addFields([
           { name: 'ID', value: invoice.unique_id },
-          { name: 'Status', value: invoice.status.replace(/_/g, ' ')},
+          { name: 'Status', value: invoice.status.replace(/_/g, ' ') },
           { name: 'Product', value: invoice.product?.name || 'N/A' },
           { name: 'Variant', value: invoice.variant?.name || 'N/A' },
           { name: 'Price', value: formatPrice(invoice.price, invoice.currency) },
@@ -93,7 +93,10 @@ export default {
           { name: 'IP Address', value: invoice.ip },
           { name: 'User Agent', value: invoice.user_agent },
           { name: 'Created At', value: `<t:${Math.floor(new Date(invoice.created_at).getTime() / 1000)}:F>` },
-          { name: 'Completed At', value: invoice.completed_at ? `<t:${Math.floor(new Date(invoice.completed_at).getTime() / 1000)}:F>` : 'N/A' },
+          {
+            name: 'Completed At',
+            value: invoice.completed_at ? `<t:${Math.floor(new Date(invoice.completed_at).getTime() / 1000)}:F>` : 'N/A'
+          }
         ]);
 
       await interaction.reply({ embeds: [embed] });
@@ -101,5 +104,5 @@ export default {
       console.error('Error viewing invoice:', error);
       await interaction.reply({ content: 'Failed to view invoice.', ephemeral: true });
     }
-  },
+  }
 };

@@ -4,10 +4,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName('coupon-delete')
     .setDescription('Delete a coupon.')
-    .addStringOption(option =>
-      option.setName('code')
-        .setDescription('Coupon code')
-        .setRequired(true)),
+    .addStringOption((option) => option.setName('code').setDescription('Coupon code').setRequired(true)),
 
   onlyWhitelisted: true,
 
@@ -21,7 +18,7 @@ export default {
     let couponData;
     try {
       const coupons = await api.get(`shops/${shopId}/coupons`);
-      couponData = coupons.find(coupon => coupon.code === code);
+      couponData = coupons.find((coupon) => coupon.code === code);
     } catch (error) {
       console.error(error);
       return interaction.reply({ content: 'Failed to load coupons.', ephemeral: true });
@@ -46,5 +43,5 @@ export default {
       console.error(error);
       return interaction.reply({ content: 'There was an error deleting the coupon.', ephemeral: true });
     }
-  },
+  }
 };

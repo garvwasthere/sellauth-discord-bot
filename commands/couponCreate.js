@@ -4,42 +4,28 @@ export default {
   data: new SlashCommandBuilder()
     .setName('coupon-create')
     .setDescription('Add a coupon.')
-    .addStringOption(option => 
-      option.setName('code')
-        .setDescription('Coupon code')
-        .setRequired(true))
-    .addBooleanOption(option => 
-      option.setName('global')
-        .setDescription('Is the coupon global?')
-        .setRequired(true))
-    .addNumberOption(option => 
-      option.setName('discount')
-        .setDescription('Discount amount')
-        .setRequired(true))
-    .addStringOption(option => 
-      option.setName('type')
+    .addStringOption((option) => option.setName('code').setDescription('Coupon code').setRequired(true))
+    .addBooleanOption((option) => option.setName('global').setDescription('Is the coupon global?').setRequired(true))
+    .addNumberOption((option) => option.setName('discount').setDescription('Discount amount').setRequired(true))
+    .addStringOption((option) =>
+      option
+        .setName('type')
         .setDescription('Discount type: percentage or fixed')
         .setRequired(true)
-        .addChoices(
-          { name: 'Percentage', value: 'percentage' },
-          { name: 'Fixed', value: 'fixed' }
-        ))
-    .addNumberOption(option => 
-      option.setName('max_uses')
-        .setDescription('Maximum uses for the coupon')
-        .setRequired(true))
-    .addStringOption(option => 
-      option.setName('expiration_date')
-        .setDescription('Expiration date (e.g., 2024-09-25T12:35:22)')
-        .setRequired(true))
-    .addStringOption(option => 
-      option.setName('allowed_emails')
-        .setDescription('Allowed emails (comma-separated)')
-        .setRequired(false))
-    .addStringOption(option => 
-      option.setName('products')
-        .setDescription('Applicable product IDs (comma-separated)')
-        .setRequired(false)),
+        .addChoices({ name: 'Percentage', value: 'percentage' }, { name: 'Fixed', value: 'fixed' })
+    )
+    .addNumberOption((option) =>
+      option.setName('max_uses').setDescription('Maximum uses for the coupon').setRequired(true)
+    )
+    .addStringOption((option) =>
+      option.setName('expiration_date').setDescription('Expiration date (e.g., 2024-09-25T12:35:22)').setRequired(true)
+    )
+    .addStringOption((option) =>
+      option.setName('allowed_emails').setDescription('Allowed emails (comma-separated)').setRequired(false)
+    )
+    .addStringOption((option) =>
+      option.setName('products').setDescription('Applicable product IDs (comma-separated)').setRequired(false)
+    ),
 
   onlyWhitelisted: true,
 
@@ -71,7 +57,7 @@ export default {
 
     try {
       await api.post(`shops/${api.shopId}/coupons`, couponData);
-      
+
       const embed = new EmbedBuilder()
         .setTitle('Coupon Created')
         .setDescription(`Coupon \`${code}\` has been successfully created.`)

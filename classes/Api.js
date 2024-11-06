@@ -10,7 +10,7 @@ export class Api {
 
   async get(endpoint) {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      headers: { 'Authorization': `Bearer ${this.apiKey}` }
+      headers: { Authorization: `Bearer ${this.apiKey}` }
     });
 
     if (!response.ok) {
@@ -24,12 +24,12 @@ export class Api {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
+        Authorization: `Bearer ${this.apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     });
-    
+
     if (!response.ok) {
       throw { message: 'Invalid response', response };
     }
@@ -41,7 +41,7 @@ export class Api {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
+        Authorization: `Bearer ${this.apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
@@ -57,9 +57,9 @@ export class Api {
   async delete(endpoint) {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${this.apiKey}` }
+      headers: { Authorization: `Bearer ${this.apiKey}` }
     });
-    
+
     if (!response.ok) {
       throw { message: 'Invalid response', response };
     }
