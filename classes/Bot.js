@@ -2,9 +2,9 @@ import { Collection, Events, REST, Routes } from 'discord.js';
 import { readdirSync } from 'fs';
 import { fileURLToPath, pathToFileURL } from 'url';
 import { join, dirname } from 'path';
-import { checkPermissions } from '../utils/checkPermissions.js';
+import { checkUserIdWhitelist } from '../utils/checkUserIdWhitelist.js';
 import { config } from '../utils/config.js';
-import { MissingPermissionsException } from '../utils/MissingPermissionsException.js';
+import { NotWhitelistedException } from '../utils/NotWhitelistedException.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -88,17 +88,15 @@ export class Bot {
       setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
       try {
-        const permissionsCheck = await checkPermissions(command, interaction);
-
-        if (permissionsCheck.result) {
+        if (await checkUserIdWhitelist(command, interaction, config)) {
           command.execute(interaction, this.api);
         } else {
-          throw new MissingPermissionsException(permissionsCheck.missing);
+          throw new NotWhitelistedException();
         }
       } catch (error) {
         console.error(error);
 
-        if (error.message.includes('permissions')) {
+        if (error.message.includes('permission')) {
           interaction.reply({ content: error.toString(), ephemeral: true }).catch(console.error);
         } else {
           interaction

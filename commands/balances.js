@@ -6,6 +6,8 @@ export default {
     .setName('balances')
     .setDescription('View your cryptocurrency balances.'),
 
+  onlyWhitelisted: true,
+
   async execute(interaction, api) {
     const shopId = api.shopId;
 

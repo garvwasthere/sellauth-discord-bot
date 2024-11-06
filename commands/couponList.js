@@ -32,6 +32,8 @@ export default {
     .setName('coupon-list')
     .setDescription('List all coupons.'),
 
+  onlyWhitelisted: true,
+
   async execute(interaction, api) {
     const shopId = api.shopId;
     const pageSize = 10; // Number of coupons per page

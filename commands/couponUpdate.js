@@ -41,6 +41,8 @@ export default {
         .setDescription('Applicable product IDs (comma-separated)')
         .setRequired(false)),
 
+  onlyWhitelisted: true,
+
   async execute(interaction, api) {
     const shopId = api.shopId;
     const code = interaction.options.getString('code');

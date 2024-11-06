@@ -54,6 +54,8 @@ export default {
         .setRequired(true)
     ),
 
+  onlyWhitelisted: true,
+
   async execute(interaction, api) {
     const shopId = api.shopId;
     const id = interaction.options.getString('id');

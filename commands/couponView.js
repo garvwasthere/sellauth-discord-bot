@@ -10,6 +10,8 @@ export default {
         .setRequired(true)
     ),
 
+  onlyWhitelisted: true,
+
   async execute(interaction, api) {
     const shopId = api.shopId;
     const code = interaction.options.getString('code');
