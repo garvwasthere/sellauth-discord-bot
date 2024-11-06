@@ -37,7 +37,7 @@ export default {
       const embed = new EmbedBuilder()
         .setTitle('Coupon Deleted')
         .setDescription(`Coupon \`${code}\` has been successfully deleted.`)
-        .setColor('#00ff00');
+        .setColor('#6571ff');
 
       return interaction.reply({ embeds: [embed] });
     } catch (error) {

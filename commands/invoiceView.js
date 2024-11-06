@@ -74,7 +74,7 @@ export default {
 
       const embed = new EmbedBuilder()
         .setTitle('Invoice Details')
-        .setColor('#0099ff')
+        .setColor('#6571ff')
         .setTimestamp()
         .addFields([
           { name: 'ID', value: invoice.unique_id },

@@ -49,7 +49,7 @@ export default {
 
       const embed = new EmbedBuilder()
         .setTitle('Coupon List')
-        .setColor('#0099ff');
+        .setColor('#6571ff');
 
       if (currentCoupons.length === 0) {
         embed.setDescription('No coupons found.');

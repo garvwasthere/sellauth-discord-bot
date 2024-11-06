@@ -29,7 +29,7 @@ export default {
       // Create an embed for the single coupon
       const embed = new EmbedBuilder()
         .setTitle('Coupon Details')
-        .setColor('#0099ff')
+        .setColor('#6571ff')
         .setTimestamp()
         .addFields([
           { name: 'Code', value: coupon.code },

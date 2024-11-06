@@ -14,7 +14,7 @@ export default {
 
       const embed = new EmbedBuilder()
         .setTitle('Balances')
-        .setColor('#0099ff')
+        .setColor('#6571ff')
         .setTimestamp()
         .addFields([
             { name: 'Bitcoin', value: `${balances.btc.btc} ₿ (${formatPrice(balances.btc.usd, 'USD')})` },

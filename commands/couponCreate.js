@@ -73,7 +73,7 @@ export default {
       const embed = new EmbedBuilder()
         .setTitle('Coupon Created')
         .setDescription(`Coupon \`${code}\` has been successfully created.`)
-        .setColor('#00ff00')
+        .setColor('#6571ff')
         .addFields(
           { name: 'Discount', value: `${discount} (${type})`, inline: true },
           { name: 'Global', value: global ? 'Yes' : 'No', inline: true },
