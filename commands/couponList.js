@@ -8,7 +8,7 @@ const formatCoupon = (coupon, isSingle) => {
     ? `Expires at ${new Date(expiration_date).toLocaleString()}`
     : 'No Expiration Date';
   const redeemedStr = `${uses}/${max_uses || '∞'}`;
-  const allowedEmailsStr = coupon.allowed_emails.length ? coupon.allowed_emails.join(', ') : 'All Emails';
+  const allowedEmailsStr = coupon.allowed_emails?.length ? coupon.allowed_emails.join(', ') : 'All Emails';
 
   let productStr = '';
 
