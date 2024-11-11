@@ -13,6 +13,7 @@ Then fill in the variables as shown below:
 - `BOT_TOKEN:` Your Discord bot token, which authenticates the bot with Discord.
 - `BOT_GUILD_ID:` The ID of the Discord server (guild) where the bot will operate.
 - `BOT_USER_ID_WHITELIST:` A comma-separated list of user IDs allowed to use restricted commands (commands with the `onlyWhitelist: true` property). This restriction currently applies to all commands except "help", "ping", and "stats".
+- `BOT_CUSTOMER_ROLE_ID:` The ID of the Discord role that will be assigned to customers who use the `claim` command.
 - `SA_API_KEY:` Your SellAuth API key, available at your SellAuth dashboard under [Account -> API Access](https://dash.sellauth.com/api). If it’s not visible, click "Regenerate".
 - `SA_SHOP_ID:` Your SellAuth shop ID, available at your SellAuth dashboard under [Account -> API Access](https://dash.sellauth.com/api).
 
