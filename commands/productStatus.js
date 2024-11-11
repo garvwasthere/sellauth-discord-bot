@@ -43,31 +43,16 @@ export default {
     const statusColor = interaction.options.getString('color');
     
     try {
-      // Get current product data to verify it exists and get the name
-      const product = await api.get(`shops/${api.shopId}/products/${productId}`);
-
-      // Send update request to the internal API
-      const response = await fetch(`${api.internalBaseUrl}shops/${api.shopId}/products/bulk-update/status`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${api.apiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          product_ids: [productId],
-          status_color: statusColor === 'null' ? null : statusColor,
-          status_text: statusText
-        })
+      await api.put(`shops/${api.shopId}/products/bulk-update/status`, {
+        product_ids: [productId],
+        status_color: statusColor === 'null' ? null : statusColor,
+        status_text: statusText
       });
-
-      if (!response.ok) {
-        throw { message: 'Invalid response', response };
-      }
 
       const colorEmoji = COLOR_EMOJIS[statusColor] || '⚪';
       const embed = new EmbedBuilder()
         .setTitle('Product Status Updated')
-        .setDescription(`Status updated for product: ${product.name}`)
+        .setDescription(`Status updated for product: ${productId}`)
         .addFields(
           { name: 'Status Text', value: statusText, inline: true },
           { name: 'Status Color', value: colorEmoji, inline: true }
@@ -79,6 +64,16 @@ export default {
 
     } catch (error) {
       console.error('Error updating product status:', error);
+
+      if (error.message == 'Invalid response') {
+        if (error.response.status === 500) {
+          return interaction.reply({ 
+            content: 'Failed to update product status. Product not found.',
+            ephemeral: true 
+          });
+        }
+      }
+
       return interaction.reply({ 
         content: 'Failed to update product status. Error: ' + error.message,
         ephemeral: true 
