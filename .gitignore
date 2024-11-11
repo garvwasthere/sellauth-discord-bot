@@ -61,3 +61,5 @@ typings/
 
 # Temp ignore 
 config.json
+
+claims.json
