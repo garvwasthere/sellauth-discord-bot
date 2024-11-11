@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
+import { config } from '../utils/config.js';
 
 // Initialize claims data storage
 const claimsFilePath = join(process.cwd(), 'claims.json');
@@ -59,8 +60,8 @@ export default {
       // Check if paid
       if (invoiceData.completed_at) {
         // Add role if configured
-        if (process.env.CUSTOMER_ROLE_ID) {
-          const customerRole = interaction.guild.roles.cache.get(process.env.CUSTOMER_ROLE_ID);
+        if (config.BOT_CUSTOMER_ROLE_ID) {
+          const customerRole = interaction.guild.roles.cache.get(config.BOT_CUSTOMER_ROLE_ID);
           if (customerRole) {
             await interaction.member.roles.add(customerRole);
           }
