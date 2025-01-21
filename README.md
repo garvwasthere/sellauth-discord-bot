@@ -1,47 +1,122 @@
-# SellAuth Discord Bot
+#Developer:
+- garvwasthere
+- .gg/mcalt
 
-This Discord bot is designed to help you manage your SellAuth shop directly from Discord. It includes commands for managing products, checking orders, and other administrative functions for your SellAuth store.
 
-## Getting Started
 
-To get started with the bot, clone the repository and create a `.env` file by copying `.env.example`:
 
-`cp .env.example .env`
 
-Then fill in the variables as shown below:
+# Sellauth AIO
+A full working AIO source code that lets you access your Sellauth via Discord bot.
 
-- `BOT_TOKEN:` Your Discord bot token, which authenticates the bot with Discord.
-- `BOT_GUILD_ID:` The ID of the Discord server (guild) where the bot will operate.
-- `BOT_USER_ID_WHITELIST:` A comma-separated list of user IDs allowed to use restricted commands (commands with the `onlyWhitelist: true` property). This restriction currently applies to all commands except "help", "ping", and "stats".
-- `BOT_CUSTOMER_ROLE_ID:` The ID of the Discord role that will be assigned to customers who use the `claim` command.
-- `SA_API_KEY:` Your SellAuth API key, available at your SellAuth dashboard under [Account -> API Access](https://dash.sellauth.com/api). If it’s not visible, click "Regenerate".
-- `SA_SHOP_ID:` Your SellAuth shop ID, available at your SellAuth dashboard under [Account -> API Access](https://dash.sellauth.com/api).
+## List of Commands:
+![image](https://cdn.discordapp.com/attachments/1305835611403325482/1331320370816614522/image.png?ex=67913037&is=678fdeb7&hm=5da290647462957a67842e7b8ab96c2719cc7c693eddd7135ce074fbecc1bf95&)
 
-## Installation
+## Command Details:
 
-Make sure you have Node.js installed, then install the required packages:
+### Balance Command
+- **Usage**: `.bal`
+- **Description**: Shows the current balance of your Sellauth account.
 
-`npm install`
+### Payout Command
+- **Usage**: `.payout {LitecoinAddress} {Amount}`
+- **Description**: Withdraws balance from Sellauth to specified LTC address.
+- **Example**: `.payout LTC123456789 15`
+- **Note**: Don't add $ sign, just use the number.
 
-Running the Bot
+### GetStock Command
+- **Usage**: `.getstock {ProductID}`
+- **Description**: DMs you all stock of the specified product.
+- **Example**: `.getstock 123`
 
-To start the bot, run:
+### Invoice Command
+- **Usage**: `.invoice {InvoiceID}`
+- **Description**: DMs you detailed information about the specified invoice.
+- **Example**: `.invoice ABC123-456`
 
-`node index.js`
+### Payment Command
+- **Usage**: `.payment {Amount}`
+- **Description**: Creates a payment invoice with QR code.
+- **Example**: `.payment 25`
 
-## Development Guidelines
+### Process Command
+- **Usage**: `.process {OrderID}`
+- **Description**: Manually processes an order without payment.
+- **Example**: `.process XYZ789`
 
-### Contributions
-We welcome contributions of new commands or features! Please ensure that any changes maintain code quality and respect the basic structure of the bot.
+### Restock Command
+- **Usage**: `.restock {ProductID}`
+- **Description**: Restocks product directly from Discord without accessing Sellauth.
+- **Example**: `.restock 456`
 
-### Formatting
-Before committing, run `npm run format` to auto-format the code.
+### Stock Command
+- **Usage**: `.stock`
+- **Description**: Shows current stock levels of all products.
 
-## Community & Support
+### Replace Command
+- **Usage**: `.replace {OrderID} {Range}`
+- **Description**: Replaces defective products in an order.
+- **Example**: `.replace 345432 0-50`
+- **Note**: Range starts from 0 (e.g., 0-50 replaces first 51 items)
 
-For help, inquiries, or to join the community, visit the [SellAuth Discord server](https://discord.sellauth.com).
+### Calc Command
+- **Usage**: `.calc {Number1} {Operation} {Number2}`
+- **Description**: Performs basic mathematical calculations.
+- **Example**: `.calc 10 * 5`
 
-Happy coding!
+### CheckCPN Command
+- **Usage**: `.checkcpn`
+- **Description**: Shows list of available usable coupons.
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### RestockNotif Command
+- **Usage**: `.restocknotif`
+- **Description**: Sends restock notification to the designated restock channel.
+
+### CouponCreate Command
+- **Usage**: `.couponcreate {DiscountPercentage} {CouponName} {ProductID}`
+- **Description**: Creates a new discount coupon.
+- **Example**: `.couponcreate 15 SUMMER123 789`
+
+### CouponDelete Command
+- **Usage**: `.coupondelete {CouponID}`
+- **Description**: Deletes an existing coupon.
+- **Example**: `.coupondelete ABC123`
+
+### CouponEdit Command
+- **Usage**: `.couponedit {CouponID} {NewCode} {ProductID} {NewDiscountAmount}`
+- **Description**: Edits an existing coupon's details.
+- **Example**: `.couponedit ABC123 WINTER50 789 50`
+
+### Update Command
+- **Usage**: `.update {ProductID} {NewPrice}`
+- **Description**: Updates product price and information.
+- **Example**: `.update 123 29.99`
+
+  ### Purchase Command
+- **Usage**: `.purchase {COUPON} {email} {amount}`
+- **Description**: Purchases product directly via discord instead of sellauth.
+- **Example**: `.purchase couponxyz xyz@xyz.com 2000`
+
+  ### GetDelivery Command
+- **Usage**: `.getdelivery {invoice_id}`
+- **Description**: Sends you the product after the payment is done and the confirmations are done.
+- **Example**: `.getdelivery xyz-invoiceid`
+
+    ### Stats Command
+- **Usage**: `.stats `
+- **Description**: Shows statistic of the sellauth.
+- **Example**: `.stats`
+  
+## Permission Levels
+- Some commands require specific permission levels (Owner, Admin, Staff)
+- Make sure to configure permissions in config.json
+
+## Setup
+1. Configure your config.json with required tokens and IDs
+2. Set up webhook URLs for logging
+3. Configure permission levels for different commands
+
+## Note
+- Keep your config.json secure and never share it
+- Some commands send responses via DM for security
+- All amounts should be entered without currency symbols
